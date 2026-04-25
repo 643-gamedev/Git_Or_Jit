@@ -6,6 +6,22 @@
 @tailwind utilities;
 
 @layer base {
+  /* FORCE neon theme everywhere */
+
+:root {
+  --bg: #000000;
+  --primary: #39ff14;
+  --secondary: #00ff9f;
+  --text: #39ff14;
+  --muted: #0f2a0f;
+  --border: #39ff14;
+}
+
+body {
+  background-color: var(--bg) !important;
+  color: var(--text) !important;
+  font-family: 'Cutive Mono', monospace;
+}
   :root {
     --bg: #000000;
     --primary: #39ff14;
