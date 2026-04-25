@@ -1,35 +1,8 @@
-/* 1. Imports must always be at the very top */
-@import url('https://fonts.googleapis.com/css2?family=Cutive+Mono&display=swap');
-
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
 @layer base {
-  /* FORCE neon theme everywhere */
-
-:root {
-  --bg: #000000;
-  --primary: #39ff14;
-  --secondary: #00ff9f;
-  --text: #39ff14;
-  --muted: #0f2a0f;
-  --border: #39ff14;
-}
-
-body {
-  background-color: var(--bg) !important;
-  color: var(--text) !important;
-  font-family: 'Cutive Mono', monospace;
-}
-  :root {
-    --bg: #000000;
-    --primary: #39ff14;
-    --secondary: #00ff9f;
-    --text: #39ff14;
-    --border: #39ff14;
-  }
-
   * {
     box-sizing: border-box;
   }
@@ -39,24 +12,13 @@ body {
   }
 
   body {
-    background-color: var(--bg);
-    color: var(--text);
-    font-family: 'Cutive Mono', monospace;
+    background-color: #030712;
+    color: #f9fafb;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Inter', sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
 
-  a {
-    color: var(--secondary);
-  }
-
-  button {
-    border: 1px solid var(--border);
-    color: var(--primary);
-    background: black;
-  }
-
-  /* Custom Scrollbar */
   ::-webkit-scrollbar {
     width: 6px;
     height: 6px;
@@ -88,36 +50,4 @@ body {
   .animate-spin-slow {
     animation: spin 3s linear infinite;
   }
-}
-/* 🔥 FORCE NEON THEME (PUT AT BOTTOM) */
-
-.bg-gray-950,
-.bg-gray-900,
-.bg-gray-800 {
-  background-color: #000000 !important;
-}
-
-.text-gray-500,
-.text-gray-400,
-.text-gray-300,
-.text-gray-600 {
-  color: #39ff14 !important;
-  opacity: 0.7;
-}
-
-.border-gray-800,
-.border-gray-700 {
-  border-color: #39ff14 !important;
-}
-
-.bg-emerald-600,
-.bg-emerald-700,
-.bg-emerald-500 {
-  background-color: #39ff14 !important;
-  color: black !important;
-}
-
-.text-emerald-400,
-.text-emerald-500 {
-  color: #39ff14 !important;
 }
