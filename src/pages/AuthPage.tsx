@@ -29,11 +29,11 @@ export default function AuthPage() {
       if (!/^[a-zA-Z0-9_-]+$/.test(username)) { setError('Username can only contain letters, numbers, hyphens, and underscores'); setLoading(false); return; }
       const { error } = await signUp(email, password, username);
       if (error) setError(error.message);
-      else navigate('/dashboard');
+      else navigate('/');
     } else {
       const { error } = await signIn(email, password);
       if (error) setError(error.message);
-      else navigate('/dashboard');
+      else navigate('/');
     }
     setLoading(false);
   }
