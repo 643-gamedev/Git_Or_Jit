@@ -112,6 +112,9 @@ export default function Navbar() {
                     <Link to={`/${profile?.username}`} onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:bg-gray-800 hover:text-white transition">
                       <User size={14} /> Your profile
                     </Link>
+                    <Link to="/feed" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:bg-gray-800 hover:text-white transition">
+                      <BookOpen size={14} /> Home Feed
+                    </Link>
                     <Link to="/dashboard" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 hover:bg-gray-800 hover:text-white transition">
                       <BookOpen size={14} /> Your repositories
                     </Link>

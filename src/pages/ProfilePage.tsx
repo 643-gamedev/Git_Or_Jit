@@ -1,15 +1,17 @@
 import { useState, useEffect } from 'react';
-import { useParams, Link } from 'react-router-dom';
-import { MapPin, Globe, Calendar, Users, BookOpen, Star, GitFork, AlertCircle } from 'lucide-react';
-import { supabase, Profile, Repository } from '../lib/supabase';
+import { useParams, Link, useNavigate } from 'react-router-dom';
+import { MapPin, Globe, Calendar, Users, BookOpen, Star, GitFork, AlertCircle, Activity } from 'lucide-react';
+import { supabase, Profile, Repository, Contribution } from '../lib/supabase';
 import { useAuth } from '../context/AuthContext';
 import RepoCard from '../components/RepoCard';
 
 export default function ProfilePage() {
   const { username } = useParams<{ username: string }>();
   const { profile: myProfile, user } = useAuth();
+  const navigate = useNavigate();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [repos, setRepos] = useState<Repository[]>([]);
+  const [contributions, setContributions] = useState<Contribution[]>([]);
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
   const [following, setFollowing] = useState(false);
@@ -32,6 +34,14 @@ export default function ProfilePage() {
 
     if (!data) { setNotFound(true); setLoading(false); return; }
     setProfile(data);
+
+    const { data: contribData } = await supabase
+      .from('user_contributions')
+      .select('*')
+      .eq('user_id', data.id)
+      .order('contribution_date', { ascending: true })
+      .limit(365);
+    setContributions(contribData ?? []);
 
     const { data: reposData } = await supabase
       .from('repositories')
@@ -87,7 +97,14 @@ export default function ProfilePage() {
       <div className="text-center">
         <AlertCircle size={40} className="mx-auto mb-4 text-gray-600" />
         <h1 className="text-2xl font-bold mb-2">User not found</h1>
-        <p className="text-gray-500">@{username} doesn't exist on Git or Jit?</p>
+        <p className="text-gray-500 mb-4">@{username} doesn't exist on Git or Jit?</p>
+        <Link to="https://status.gitorjit.dev" target="_blank" className="text-emerald-400 hover:underline text-sm">
+          Check system status
+        </Link>
+        {' · '}
+        <button onClick={() => navigate('/explore')} className="text-emerald-400 hover:underline text-sm">
+          Explore repos
+        </button>
       </div>
     </div>
   );
@@ -153,6 +170,31 @@ export default function ProfilePage() {
                 <strong className="text-white">{profile.following_count}</strong> following
               </span>
             </div>
+
+            {contributions.length > 0 && (
+              <div className="mt-6 pt-6 border-t border-gray-800">
+                <div className="flex items-center gap-2 mb-3">
+                  <Activity size={14} className="text-emerald-500" />
+                  <p className="text-xs font-medium text-gray-400">Contributions (last year)</p>
+                </div>
+                <div className="grid grid-cols-13 gap-0.5">
+                  {Array.from({ length: 365 }).map((_, i) => {
+                    const date = new Date();
+                    date.setDate(date.getDate() - (364 - i));
+                    const contrib = contributions.find(c => c.contribution_date === date.toISOString().split('T')[0]);
+                    const count = contrib?.contribution_count ?? 0;
+                    const intensity = count === 0 ? 0 : count === 1 ? 1 : count <= 3 ? 2 : count <= 7 ? 3 : 4;
+                    const colors = ['bg-gray-800', 'bg-emerald-950', 'bg-emerald-800', 'bg-emerald-600', 'bg-emerald-500'];
+                    return (
+                      <div key={i} title={`${count} contributions on ${date.toDateString()}`} className={`w-1.5 h-1.5 rounded-xs ${colors[intensity]}`} />
+                    );
+                  })}
+                </div>
+                <p className="text-xs text-gray-600 mt-2">
+                  {contributions.reduce((s, c) => s + c.contribution_count, 0)} contributions this year
+                </p>
+              </div>
+            )}
           </aside>
 
           {/* Repos */}

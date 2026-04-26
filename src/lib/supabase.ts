@@ -105,3 +105,54 @@ export type Notification = {
   is_read: boolean;
   created_at: string;
 };
+
+export type GitHubAccount = {
+  id: string;
+  user_id: string;
+  github_id: number;
+  github_username: string;
+  github_avatar_url: string;
+  connected_at: string;
+  last_synced_at: string | null;
+};
+
+export type Contribution = {
+  id: string;
+  user_id: string;
+  contribution_date: string;
+  contribution_count: number;
+  commits: number;
+  stars: number;
+  prs: number;
+  issues: number;
+  created_at: string;
+};
+
+export type PullRequest = {
+  id: string;
+  repo_id: string;
+  author_id: string;
+  number: number;
+  title: string;
+  description: string;
+  source_branch: string;
+  target_branch: string;
+  state: 'open' | 'closed' | 'merged';
+  merged: boolean;
+  merged_at: string | null;
+  merged_by: string | null;
+  created_at: string;
+  updated_at: string;
+};
+
+export type ActionRun = {
+  id: string;
+  repo_id: string;
+  workflow_name: string;
+  branch: string;
+  status: 'pending' | 'running' | 'completed' | 'failed';
+  conclusion: string | null;
+  started_at: string | null;
+  completed_at: string | null;
+  created_at: string;
+};

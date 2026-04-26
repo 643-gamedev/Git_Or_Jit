@@ -2,7 +2,8 @@ import { useState, useEffect, useRef } from 'react';
 import { useParams, Link, useNavigate } from 'react-router-dom';
 import {
   Star, GitFork, Eye, Code2, BookOpen, AlertCircle, GitBranch,
-  Globe, Lock, Upload, Plus, Archive, Zap, Settings, Trash2
+  Globe, Lock, Upload, Plus, Archive, Zap, Settings, Trash2,
+  Copy, Command, Workflow, GitPullRequest, Flag
 } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 import { supabase, Repository, RepositoryFile } from '../lib/supabase';
@@ -32,6 +33,17 @@ export default function RepositoryPage() {
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   const isOwner = profile?.username === owner;
+
+  useEffect(() => {
+    function handleKeyPress(e: KeyboardEvent) {
+      if ((e.key === '.' || e.key === '>') && repo) {
+        const repoUrl = `https://github.dev/${owner}/${repoName}`;
+        window.open(repoUrl, '_blank');
+      }
+    }
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [owner, repoName, repo]);
 
   useEffect(() => {
     fetchRepo();
@@ -183,6 +195,18 @@ export default function RepositoryPage() {
               </button>
               <button className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-700 bg-gray-800 text-gray-300 text-sm hover:border-gray-600 hover:text-white transition">
                 <Eye size={13} /> Watch · {repo.watcher_count}
+              </button>
+              <button onClick={() => alert('Commands coming soon!\n\nType "/" in code to see available commands.')} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-700 bg-gray-800 text-gray-300 text-sm hover:border-gray-600 hover:text-white transition" title="Press / for commands">
+                <Command size={13} /> Commands
+              </button>
+              <button onClick={() => alert('PR feature coming soon!\n\nCreate pull requests to propose changes.')} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-700 bg-gray-800 text-gray-300 text-sm hover:border-gray-600 hover:text-white transition">
+                <GitPullRequest size={13} /> PRs
+              </button>
+              <button onClick={() => alert('Actions/CI coming soon!\n\nConnect your CI/CD workflows.')} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-700 bg-gray-800 text-gray-300 text-sm hover:border-gray-600 hover:text-white transition">
+                <Workflow size={13} /> Actions
+              </button>
+              <button onClick={() => alert('Report issue.\n\nHelp us improve Git or Jit? at issues@gitorjit.dev')} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-700 bg-gray-800 text-gray-300 text-sm hover:border-gray-600 hover:text-white transition">
+                <Flag size={13} />
               </button>
               {isOwner && (
                 <Link to={`/${owner}/${repoName}/settings`} className="flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-gray-700 bg-gray-800 text-gray-300 text-sm hover:border-gray-600 hover:text-white transition">

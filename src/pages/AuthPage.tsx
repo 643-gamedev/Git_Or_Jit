@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { useNavigate, useSearchParams, Link } from 'react-router-dom';
-import { GitBranch, Mail, Lock, User, Eye, EyeOff, AlertCircle } from 'lucide-react';
+import { GitBranch, Mail, Lock, User, Eye, EyeOff, AlertCircle, Github } from 'lucide-react';
 import { useAuth } from '../context/AuthContext';
 
 export default function AuthPage() {
@@ -137,6 +137,19 @@ export default function AuthPage() {
               {loading ? 'Please wait...' : mode === 'signin' ? 'Sign in' : 'Create account'}
             </button>
           </form>
+
+          <div className="relative mt-5">
+            <div className="absolute inset-0 flex items-center"><div className="w-full border-t border-gray-700" /></div>
+            <div className="relative flex justify-center text-xs"><span className="px-2 bg-gray-900 text-gray-500">or</span></div>
+          </div>
+
+          <button
+            type="button"
+            onClick={() => alert('GitHub OAuth coming soon!\n\nFor now, use email/password authentication.\n\nGitHub account linking will be available in settings after sign in.')}
+            className="w-full flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-700 border border-gray-700 text-white font-semibold py-2.5 rounded-lg transition-all duration-200 text-sm mt-3"
+          >
+            <Github size={16} /> Continue with GitHub
+          </button>
 
           {mode === 'signin' && (
             <p className="text-center text-xs text-gray-600 mt-4">

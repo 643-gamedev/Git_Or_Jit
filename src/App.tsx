@@ -4,6 +4,7 @@ import Navbar from './components/Navbar';
 import LandingPage from './pages/LandingPage';
 import AuthPage from './pages/AuthPage';
 import DashboardPage from './pages/DashboardPage';
+import FeedPage from './pages/FeedPage';
 import NewRepoPage from './pages/NewRepoPage';
 import RepositoryPage from './pages/RepositoryPage';
 import ProfilePage from './pages/ProfilePage';
@@ -29,9 +30,10 @@ function AppRoutes() {
   return (
     <div className="min-h-screen bg-gray-950">
       <Routes>
-        <Route path="/" element={user ? <Navigate to="/dashboard" replace /> : <LandingPage />} />
+        <Route path="/" element={user ? <Navigate to="/feed" replace /> : <LandingPage />} />
         <Route path="/auth" element={<AuthPage />} />
-        <Route path="/explore" element={<><Navbar /><ExplorePage /></>} />
+        <Route path="/feed" element={<ProtectedRoute><Navbar /><FeedPage /></ProtectedRoute>} />
+        <Route path="/explore" element={<Navigate to="/feed" replace />} />
         <Route path="/downloads" element={<><Navbar /><DownloadsPage /></>} />
         <Route path="/dashboard" element={<ProtectedRoute><Navbar /><DashboardPage /></ProtectedRoute>} />
         <Route path="/new" element={<ProtectedRoute><Navbar /><NewRepoPage /></ProtectedRoute>} />
